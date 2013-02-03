@@ -1,0 +1,50 @@
+{% extends 'PasonGalleryBundle::layout.html.twig' %}
+
+{% block  content %}
+
+<h1>Panel</h1>
+
+		<form action="{{ path('pason_gallery_panel') }}" method="post" {{ form_enctype(form) }}>
+		    {{ form_widget(form) }}
+		
+		    <input type="submit" class="btn btn-success" name="Wyślij" value="Wyślij" />
+		</form>
+	
+		<div>
+			Prywatne:
+			<input id="private" type="checkbox" {% if app.user.isPrivate %} checked="checked" {% endif %}>
+		</div>
+		
+<table class="records_list table table-striped table-hover table-bordered" style="margin-top:10px;">
+    <thead>
+        <tr>
+           <th class="center-text">Nazwa</th>
+           <th class="center-text">Dodano</th>
+           <th class="center-text">Akcja</th>     
+        </tr>
+    </thead>
+    <tbody>
+    	{% for file in gallery %}
+    	<tr>	
+    		<td>{{ file.name }}</td>
+    		<td>{{ file.created|date('d.m.Y H:i:s') }}</td>
+    		<td> <a href="{{ path('pason_gallery_panel_remove',{id:file.id}) }}"> <img src="{{ asset('bundles/pasongallery/img/x.png') }}" width="20" height="20"></a> </td>
+    	</tr>
+    	{% endfor %}
+    	
+    	
+    </tbody>
+ </table>
+ 
+ <script type="text/javascript">
+ 	
+ 	$('#private').click(function() {
+ 		$.get('{{path("update_private")}}', function() {
+ 			$('#notice').removeClass('hidden');
+ 			$('#noticeText').text('Zmieniono prywatność');
+ 		});
+	});
+ 	
+ </script>
+
+{% endblock %}

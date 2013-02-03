@@ -1,0 +1,22 @@
+pason_gallery_homepage:
+    pattern:  /
+    defaults: { _controller: PasonGalleryBundle:Default:index }
+
+pason_gallery_user:
+    pattern:  /gallery/{slug}
+    defaults: { _controller: PasonGalleryBundle:Default:gallery }
+
+    
+pason_gallery_panel:
+    pattern:  /panel
+    defaults: { _controller: PasonGalleryBundle:Panel:index }    
+    
+pason_gallery_panel_remove:
+    pattern:  /panel/remove/{id}
+    defaults: { _controller: PasonGalleryBundle:Panel:remove }     
+
+update_private:
+    pattern:  /panel/private
+    defaults: { _controller: PasonGalleryBundle:Panel:privatechange }    
+    
+       

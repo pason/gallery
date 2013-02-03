@@ -1,0 +1,117 @@
+{% extends 'PasonGalleryBundle::layout.html.twig' %}
+
+{% block  content %}
+
+<h2>Galeria: {{ gallery.username }}</h2>
+	
+
+	<div class="row">
+		<div class="span1 top-margin-160">
+			<a href="javascript:void(0)" id="prev"><img src="{{ asset('/bundles/pasongallery/img/arrow1.png')}}"></a>
+	    </div>   
+	   	<div class="span8">
+			<div class="preview"> 
+				<img id="preview" src="" />
+			</div>
+		</div>
+		<div class="span1 top-margin-160">
+			 <a href="javascript:void(0)" id="next"><img src="{{ asset('/bundles/pasongallery/img/arrow2.png')}}"></a>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span1">
+			<a href="javascript:void(0)" id="mycarousel-prev"><img src="{{ asset('/bundles/pasongallery/img/arrow4.png')}}"></a>	
+		</div>
+		
+		 <div class="span8">
+			<ul id="jcarousel" class="jcarousel-skin-tango" >
+			{% for file in gallery.file %}
+				{% if file.deletedAt is null %} 
+					<li>
+						<a class="minatures" href="javascript:void(0)">
+							<img src="/{{ file.webpath }}" width="100" height="100">
+						</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		</div>
+		
+		 <div class="span1">        
+	     	<a href="javascript:void(0)" id="mycarousel-next"><img src="{{ asset('/bundles/pasongallery/img/arrow3.png')}}"></a>
+	      <div>
+	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#jcarousel').jcarousel({
+		        itemFallbackDimension: 900,
+			    initCallback: initCallback,
+       			buttonNextHTML: null,
+        		buttonPrevHTML: null,
+        		wrap: 'circular',
+        		scroll: 7
+			   		        
+		    });
+		    
+		    
+		    $('.minatures').click(function(){
+		    	$('#preview').attr('src',$(this).find('img').attr('src'));
+		    });
+		    
+		    $('#jcarousel li').click(function() {
+		    	var index = 0;
+		    	var split = $(this).attr('class').split('-');
+		    	if(split[8] == "")
+		    		index = -split[9];
+		    	else
+		    		index = split[7];
+		    		    	
+		    	var carousel = jQuery('#jcarousel').data('jcarousel');
+		    	carousel.scroll(parseInt(index)-3);
+		    	
+		    });
+		    
+		});
+		
+		
+		
+		function initCallback(carousel) {
+			if($('.jcarousel-item-4').find('img').attr('src'))
+				$('#preview').attr('src',$('.jcarousel-item-4').find('img').attr('src'));
+			else
+				$('#preview').attr('src',$('.jcarousel-item-1').find('img').attr('src'));
+				   
+		    $('#mycarousel-next').bind('click', function() {
+		        carousel.options.scroll = 7;
+		        carousel.next();
+		        return false;
+		    });
+		
+		    $('#mycarousel-prev').bind('click', function() {
+		        carousel.options.scroll = 7;
+		        carousel.prev();
+		        return false;
+		    });
+		    
+		    $('#next').click(function() {
+		    	 carousel.options.scroll = 1;
+		    	 carousel.next(); 
+		    	 $('#preview').attr('src',$('.jcarousel-item-'+(carousel.first+3)).find('img').attr('src'));
+		    });
+		    
+		     $('#prev').click(function() {
+		    	 carousel.options.scroll = 1;
+		    	 carousel.prev();
+		    	 $('#preview').attr('src',$('.jcarousel-item-'+(carousel.first+3)).find('img').attr('src'));
+		    });
+		    
+		    
+		};
+		
+		
+		
+</script>
+	
+{% endblock %}

@@ -1,0 +1,125 @@
+<!doctype html>
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Galeria</title>
+    	<meta name="viewport" content="width=device-width">
+		
+		
+        {% block stylesheets %}           
+        	<link rel="stylesheet" href="{{ asset('bundles/pasongallery/css/bootstrap.css') }}" type="text/css"> 
+            <link rel="stylesheet" href="{{ asset('bundles/pasongallery/css/main.css') }}" type="text/css"> 
+                       
+        {% endblock %}
+    	
+    	{% block javascripts %}
+    	   	
+    		<script src="{{ asset('bundles/pasongallery/js/jquery-1.8.2.min.js') }}"></script> 
+    		<script src="{{ asset('bundles/pasongallery/js/bootstrap.js') }}"></script> 
+    		<script src="{{ asset('bundles/pasongallery/js/jcarousel/dist/jquery.jcarousel.min.js') }}"></script> 
+    		
+    		
+		  
+	    {% endblock %}
+    	    
+    </head>
+    
+    <body>
+    	<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </a>
+	          <a class="brand" href="{{ path('pason_gallery_homepage') }}">Galerie</a>
+	          <div class="nav-collapse collapse">
+	            <ul class="nav">
+	              {% if app.user.username is defined %} 
+	              	<li><a href="{{ path('pason_gallery_panel') }}">Panel</a></li>
+	              	<li><a href="#">Zalogowano jako {{ app.user.username }}</a></li>
+	              	<li><a href="{{ path('fos_user_security_logout') }}">wyloguj</a></li>
+	              {% else %}
+	              	<li><a href="{{ path('fos_user_security_login') }}">Logowanie</a></li>
+	              	<li><a href="{{ path('fos_user_registration_register') }}">Załóż konto</a></li>
+	              {% endif %}
+	                         
+	            </ul>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
+    
+    	<div class="container">           
+       			
+       			
+       			{% block notice %}
+	                {% for notice_level in ['success','error','info', 'warning'] %}
+	                    {% set session_var = 'pagi_flash_' ~ notice_level %}
+	                    {% if app.session.hasFlash(session_var) %}
+	                        <div class="alert alert-block alert-{{ notice_level }} fade in {{ notice_level }}">
+	                            {{ app.session.flash(session_var) }}
+	                            {#<a class="close" href="#">Ă—</a>#}
+	                        </div>
+	                    {% endif %}
+	                {% endfor %}
+	            {% endblock %}
+
+				
+				<div id="notice" {% if not app.session.hasFlash('success') %}  class="hidden" {% endif %}>               
+                    <div class="clear"></div>
+                    <div class="alert alert-block alert-success fade in success" style="margin-top:50px;" id="noticeText">
+                        {{ app.session.flash('success') }}
+                    </div>              
+                </div>
+				
+                
+                <div id="noticeError" {% if not app.session.hasFlash('error') %} class="hidden" {% endif %}>
+                    <div class="clear"></div>
+                    <div class="alert alert-block alert-error fade in error" style="margin-top:50px;"  id="errorText"">
+                        {{ app.session.flash('error') }}
+                    </div>
+                 </div>
+		    	
+		    	<div class="row">
+					<div class="span2">
+						
+						{% if users is defined %}
+						
+						<ul class="nav nav-list">					
+							
+							{% if app.user.isPrivate is defined and app.user.isPrivate %}
+								
+								<li {% if slug is defined and slug == app.user.slug %}  class="active"  {% endif %}>									
+									<a href="{{ path('pason_gallery_user',{slug:app.user.slug}) }}">{{ app.user.username }}</a>
+								</li>
+								
+							{% endif %}
+							
+							{% for user in users %}								
+								<li {% if slug is defined and slug == user.slug %}  class="active"  {% endif %}>									
+									<a href="{{ path('pason_gallery_user',{slug:user.slug}) }}">{{ user.username }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+						
+						{% endif %}
+					
+					</div>
+					<div class="span9">
+
+					{%block content %}
+	    	       
+		    		{% endblock %}
+					
+					</div>
+				</div>
+		    	
+		    	
+    	
+			
+		</div>
+    </body>
+</html>
+

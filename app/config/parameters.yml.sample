@@ -1,0 +1,10 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     
+    database_user:     
+    database_password: 
+      
+    locale:            pl
+    secret:            ThisTokenIsNotSoSecretChangeIt
