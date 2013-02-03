@@ -75,7 +75,10 @@ ul.nav-list{
 
 .jcarousel-skin-tango .jcarousel-container {
 
-   
+    overflow: hidden;
+    -moz-box-shadow: inset 400px -1px 400px -400px #000;
+	-webkit-box-shadow: inset 400px -1px 400px -400px #000;
+	box-shadow: inset 400px -1px 400px -400px #000;
    
 }
 
@@ -95,7 +98,10 @@ ul.nav-list{
 }
 
 .jcarousel-skin-tango .jcarousel-clip {
-    overflow: hidden;
+	-moz-box-shadow: inset -400px -1px 400px -400px #000;
+	-webkit-box-shadow: inset -400px -1px 400px -400px #000;
+	box-shadow: inset -400px -1px 400px -400px #000;
+	
 }
 
 .jcarousel-skin-tango .jcarousel-clip-horizontal {
